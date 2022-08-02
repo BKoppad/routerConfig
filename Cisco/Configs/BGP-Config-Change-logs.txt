@@ -1,0 +1,139 @@
+R1#configure
+Configuring from terminal, memory, or network [terminal]? t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#router bgp 100
+R1(config-router)#neighbor 10.10.10.2 remote-as 100
+R1(config-router)#neighbor 10.10.10.2 password Juniper
+R1(config-router)#neighbor 10.10.10.2 update-source gi0/1
+R1(config-router)#no auto-summary
+R1(config-router)#end
+R1#
+*Aug  1 18:28:49.031: %SYS-5-CONFIG_I: Configured from console by console
+R1#
+*Aug  1 18:28:53.270: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(38174) to 10.10.10.1                                (179) tableid - 0
+R1#
+*Aug  1 18:28:56.478: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(38174) to 10.10.10.1                                (179) tableid - 0
+R1#
+*Aug  1 18:29:02.886: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(38174) to 10.10.10.1                                (179) tableid - 0
+R1#
+*Aug  1 18:29:15.717: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(38174) to 10.10.10.1                                (179) tableid - 0
+R1#show ip bgp summary
+BGP router identifier 10.10.10.1, local AS number 100
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.2      4          100       4       5        1    0    0 00:02:09        0
+R
+*Aug  1 18:30:59.282: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(38174) to 10.10.10.1                                (179) tableid - 0
+*Aug  1 18:30:59.288: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(38174) to 10.10.10.1                                (179) tableid - 0
+R1#
+*Aug  1 18:31:09.523: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(48052) to 10.10.10.1                                (179) tableid - 0                            (179) tableid - 0                              (179) tableid - 0
+R1#
+*Aug  1 18:32:54.984: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(51257) to 10.10.10.1                                (179) tableid - 0
+R1#show ip bgp summary
+BGP router identifier 10.10.10.1, local AS number 100
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.2      4          100       0       0        1    0    0 00:02:07 Idle
+R1#
+*Aug  1 18:33:10.399: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(54388) to 10.10.10.1                                (179) tableid - 0
+R1#
+*Aug  1 18:33:12.399: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(54388) to 10.10.10.1                                (179) tableid - 0
+R1#
+*Aug  1 18:34:01.537: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(27260) to 10.10.10.1(179) tableid - 0
+
+====== Same Password =====
+
+R1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#router bgp 100
+R1(config-router)#neighbor 10.10.10.2 remote-as 100
+R1(config-router)#neighbor 10.10.10.2 password cisco
+R1(config-router)#neighbor 10.10.10.2 update-source gi0/1
+R1(config-router)#no auto-summary
+R1(config-router)#end
+R1#
+*Aug  1 18:34:13.398: %SYS-5-CONFIG_I: Configured from console by console
+R1#
+*Aug  1 18:34:18.010: %BGP-5-ADJCHANGE: neighbor 10.10.10.2 Up
+R1#show ip bgp summary
+BGP router identifier 10.10.10.1, local AS number 100
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.2      4          100       4       4        1    0    0 00:00:08        0
+R1#
+R1#
+R1#config t
+
+===== Different password ======
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#router bgp 100
+R1(config-router)#neighbor 10.10.10.2 remote-as 100
+R1(config-router)#neighbor 10.10.10.2 password juniper
+R1(config-router)#neighbor 10.10.10.2 update-source gi0/1
+R1(config-router)#no auto-summary
+R1(config-router)#end
+R1#
+*Aug  1 18:34:48.761: %SYS-5-CONFIG_I: Configured from console by console
+R1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#exit
+*Aug  1 18:35:13.330: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(24343) to 10.10.10.1(179) tableid - 0
+R1(config)#exit
+R1#
+*Aug  1 18:35:15.072: %SYS-5-CONFIG_I: Configured from console by console
+R1#show ip bgp summary
+*Aug  1 18:35:16.531: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(24343) to 10.10.10.1(179) tableid - 0
+R1#show ip bgp summary
+BGP router identifier 10.10.10.1, local AS number 100
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.2      4          100       4       5        1    0    0 00:01:01        0
+R1#show ip bgp summary
+BGP router identifier 10.10.10.1, local AS number 100
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.2      4          100       4       6        1    0    0 00:02:18        0
+R1#
+*Aug  1 18:36:52.826: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(24343) to 10.10.10.1(179) tableid - 0
+R1#
+*Aug  1 18:37:18.818: %BGP-3-NOTIFICATION: sent to neighbor 10.10.10.2 4/0 (hold time expired) 0 bytes
+R1#
+*Aug  1 18:37:18.821: %BGP-5-NBR_RESET: Neighbor 10.10.10.2 reset (BGP Notification sent)
+*Aug  1 18:37:18.823: %BGP-5-ADJCHANGE: neighbor 10.10.10.2 Down BGP Notification sent
+*Aug  1 18:37:18.824: %BGP_SESSION-5-ADJCHANGE: neighbor 10.10.10.2 IPv4 Unicast topology base removed from session  BGP Notification sent
+R1#
+*Aug  1 18:37:28.639: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(31161) to 10.10.10.1(179) tableid - 0
+R1#
+*Aug  1 18:37:30.640: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(31161) to 10.10.10.1(179) tableid - 0
+R1#
+*Aug  1 18:38:19.800: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(48604) to 10.10.10.1(179) tableid - 0
+R1#
+
+
+== Changing to same password ==
+
+R1#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#router bgp 100
+R1(config-router)#neighbor 10.10.10.2 remote-as 100
+R1(config-router)#neighbor 10.10.10.2 password cisco
+R1(config-router)#neighbor 10.10.10.2 update-source gi0/1
+R1(config-router)#no auto-summary
+R1(config-router)#end
+R1#
+*Aug  1 18:40:09.834: %SYS-5-CONFIG_I: Configured from console by console
+R1#
+*Aug  1 18:40:15.040: %BGP-5-ADJCHANGE: neighbor 10.10.10.2 Up
+R1#
+*Aug  1 18:40:17.866: %TCP-6-BADAUTH: Invalid MD5 digest from 10.10.10.2(24343) to 10.10.10.1(179) tableid - 0
+R1#show ip bgp summary
+BGP router identifier 10.10.10.1, local AS number 100
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.10.10.2      4          100       4       4        1    0    0 00:00:11        0
